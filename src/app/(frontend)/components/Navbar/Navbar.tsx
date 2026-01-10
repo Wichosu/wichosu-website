@@ -1,33 +1,31 @@
-import * as React from 'react';
-import { NavbarListItem } from './NavbarListItem';
-import { NavbarContent } from './NavbarContent';
-import { NavbarTrigger } from './NavbarTrigger';
-import { NavbarItem } from './NavbarItem';
-import { NavbarList } from './NavbarList';
-import { NavbarRoot } from './NavbarRoot';
-import { NavbarIndicator } from './NavbarIndicator';
-import { NavbarViewport } from './NavbarViewport';
-import { NavbarLink } from './NavbarLink';
-import { useTranslations } from 'next-intl';
-import { LanguageSwitcher } from '../LanguageSwitcher';
+import * as React from 'react'
+import { NavbarListItem } from './NavbarListItem'
+import { NavbarContent } from './NavbarContent'
+import { NavbarTrigger } from './NavbarTrigger'
+import { NavbarItem } from './NavbarItem'
+import { NavbarList } from './NavbarList'
+import { NavbarRoot } from './NavbarRoot'
+import { NavbarIndicator } from './NavbarIndicator'
+import { NavbarViewport } from './NavbarViewport'
+import { NavbarLink } from './NavbarLink'
 
 type NavItem =
   | {
-      type: 'trigger';
-      trigger: string;
-      content: NavContent[];
+      type: 'trigger'
+      trigger: string
+      content: NavContent[]
     }
   | {
-      type: 'link';
-      href: string;
-      title: string;
-    };
+      type: 'link'
+      href: string
+      title: string
+    }
 
 type NavContent = {
-  href: string;
-  title: string;
-  description: string;
-};
+  href: string
+  title: string
+  description: string
+}
 
 // function createNavItem(href: string, title: string): NavItem {
 //   return {
@@ -37,96 +35,65 @@ type NavContent = {
 //   };
 // }
 
-function createNavItemWithContent(
-  trigger: string,
-  content: NavContent[]
-): NavItem {
+function createNavItemWithContent(trigger: string, content: NavContent[]): NavItem {
   return {
     type: 'trigger',
     trigger,
     content,
-  };
+  }
 }
 
-function createNavContent(
-  href: string,
-  title: string,
-  description: string
-): NavContent {
+function createNavContent(href: string, title: string, description: string): NavContent {
   return {
     href,
     title,
     description,
-  };
+  }
 }
 
 export function Navbar() {
-  const t = useTranslations('Navbar');
-
   const NavbarItems: NavItem[] = [
-    createNavItemWithContent(t('Hsk'), [
-      createNavContent(
-        '/libros-hsk',
-        t('HskBooks'),
-        t('Descriptions.HskBooks')
-      ),
-      createNavContent(
-        '/hsk-audios',
-        t('HskAudios'),
-        t('Descriptions.HskAudios')
-      ),
+    createNavItemWithContent('Hsk', [
+      createNavContent('/libros-hsk', 'HskBooks', 'Descriptions.HskBooks'),
+      createNavContent('/hsk-audios', 'HskAudios', 'Descriptions.HskAudios'),
       createNavContent(
         '/hsk-audios-download',
-        t('HskAudiosDownload'),
-        t('Descriptions.HskAudiosDownload')
+        'HskAudiosDownload',
+        'Descriptions.HskAudiosDownload',
       ),
-      createNavContent(
-        '/hsk-mock-test',
-        t('HskMockTest'),
-        t('Descriptions.HskMockTest')
-      ),
-      createNavContent(
-        '/mazos-anki',
-        t('AnkiDecks'),
-        t('Descriptions.AnkiDecks')
-      ),
+      createNavContent('/hsk-mock-test', 'HskMockTest', 'Descriptions.HskMockTest'),
+      createNavContent('/mazos-anki', 'AnkiDecks', 'Descriptions.AnkiDecks'),
     ]),
-    createNavItemWithContent(t('Tools'), [
-      createNavContent('/canales', t('Channels'), t('Descriptions.Channels')),
-      createNavContent('/hanzi', t('Hanzi'), t('Descriptions.Hanzi')),
-      createNavContent(
-        '/plantillas',
-        t('Templates'),
-        t('Descriptions.Templates')
-      ),
+    createNavItemWithContent('Tools', [
+      createNavContent('/canales', 'Channels', 'Descriptions.Channels'),
+      createNavContent('/hanzi', 'Hanzi', 'Descriptions.Hanzi'),
+      createNavContent('/plantillas', 'Templates', 'Descriptions.Templates'),
       createNavContent(
         '/plantillas/generador',
-        t('TemplateGenerator'),
-        t('Descriptions.TemplateGenerator')
+        'TemplateGenerator',
+        'Descriptions.TemplateGenerator',
       ),
     ]),
-    createNavItemWithContent(t('About'), [
-      createNavContent('/about', t('About'), t('Descriptions.About')),
-      createNavContent('/roadmap', t('Roadmap'), t('Descriptions.Roadmap')),
-      createNavContent('/support', t('Support'), t('Descriptions.Support')),
+    createNavItemWithContent('About', [
+      createNavContent('/about', 'About', 'Descriptions.About'),
+      createNavContent('/roadmap', 'Roadmap', 'Descriptions.Roadmap'),
+      createNavContent('/support', 'Support', 'Descriptions.Support'),
     ]),
-  ];
+  ]
 
   return (
     <NavbarRoot>
       <NavbarList>
         <NavbarItem>
-          <NavbarLink href='/'>
-            <picture className='w-5'>
-              <img src='/logo.svg' alt={t('LogoAlt')} />
+          <NavbarLink href="/">
+            <picture className="w-5">
+              <img src="/logo.svg" alt="Logo" />
             </picture>
           </NavbarLink>
         </NavbarItem>
         {NavbarItems.map((item, index) => (
           <NavbarItem key={`navitem-${index}`}>
-            {item.type === 'link' && (
-              <NavbarLink href={item.href}>{item.title}</NavbarLink>
-            )}
+            {item.type === 'link' && <NavbarLink href={item.href}>{item.title}</NavbarLink>}
             {item.type === 'trigger' && (
               <>
                 <NavbarTrigger>{item.trigger}</NavbarTrigger>
@@ -145,14 +112,9 @@ export function Navbar() {
             )}
           </NavbarItem>
         ))}
-        <NavbarItem>
-          <div className='flex h-full items-center'>
-            <LanguageSwitcher />
-          </div>
-        </NavbarItem>
         <NavbarIndicator />
       </NavbarList>
       <NavbarViewport />
     </NavbarRoot>
-  );
+  )
 }
