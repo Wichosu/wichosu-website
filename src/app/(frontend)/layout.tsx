@@ -16,10 +16,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       <body className="bg-gray-50">
         <Container>
           <Navbar />
-          <main>
-            {children}
-            <p>this is a paragraph</p>
-          </main>
+          <main>{children}</main>
         </Container>
       </body>
     </html>
