@@ -29,7 +29,7 @@ export function Hero() {
           ,{' '}
           <Link
             className="text-blue-500 hover:text-blue-600"
-            href="https://Linkter.com/wichosu"
+            href="https://x.com/Wichosu198437"
             target="_blank"
           >
             Twitter
@@ -37,7 +37,7 @@ export function Hero() {
           ,{' '}
           <Link
             className="text-blue-500 hover:text-blue-600"
-            href="https://linkedin.com/in/wichosu"
+            href="https://linkedin.com/in/luis-wicho-miranda"
             target="_blank"
           >
             LinkedIn
@@ -49,6 +49,14 @@ export function Hero() {
             target="_blank"
           >
             Telegram
+          </Link>
+          ,{' '}
+          <Link
+            className="text-blue-500 hover:text-blue-600"
+            href="mailto:wichosubuilds@gmail.com"
+            target="_blank"
+          >
+            Email
           </Link>
           .
         </p>

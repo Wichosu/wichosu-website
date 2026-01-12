@@ -3,6 +3,7 @@ import { Hero } from './components/Hero'
 import { Card } from './components/Card'
 import Image from 'next/image'
 import { Button } from './components/Button'
+import { Footer } from './components/Footer'
 
 export default function HomePage() {
   return (
@@ -39,6 +40,7 @@ export default function HomePage() {
           </Card>
         </div>
       </section>
+      <Footer />
     </>
   )
 }
