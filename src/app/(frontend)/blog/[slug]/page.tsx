@@ -20,6 +20,7 @@ export default async function Page({ params }: Props) {
       },
     },
     limit: 1,
+    depth: 2,
   })
 
   if (!blogEntry.docs[0]) {
@@ -27,10 +28,12 @@ export default async function Page({ params }: Props) {
   }
 
   return (
-    <>
-      <h1>{blogEntry.docs[0].title}</h1>
-      <p>{new Date(blogEntry.docs[0].date).toLocaleDateString()}</p>
+    <section>
+      <h1 className="text-4xl font-medium text-center mt-8">{blogEntry.docs[0].title}</h1>
+      <p className="text-center mt-2 mb-8">
+        {new Date(blogEntry.docs[0].date).toLocaleDateString()}
+      </p>
       <RichText data={blogEntry.docs[0].content} />
-    </>
+    </section>
   )
 }
