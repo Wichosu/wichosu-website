@@ -31,9 +31,16 @@ export default async function Page({ params }: Props) {
     <section>
       <h1 className="text-4xl font-medium text-center mt-8">{blogEntry.docs[0].title}</h1>
       <p className="text-center mt-2 mb-8">
-        {new Date(blogEntry.docs[0].date).toLocaleDateString()}
+        {new Date(blogEntry.docs[0].date).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })}
       </p>
-      <RichText data={blogEntry.docs[0].content} />
+      <RichText
+        data={blogEntry.docs[0].content}
+        className="prose prose-neutral max-w-4xl mx-auto"
+      />
     </section>
   )
 }
