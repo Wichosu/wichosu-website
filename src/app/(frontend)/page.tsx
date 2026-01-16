@@ -4,8 +4,17 @@ import { Card } from './components/Card'
 import Image from 'next/image'
 import { Button } from './components/Button'
 import { Footer } from './components/Footer'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const payload = await getPayload({ config })
+
+  const blogEntries = await payload.find({
+    collection: 'blog-entry',
+    limit: 10,
+  })
+
   return (
     <>
       <Hero />
@@ -38,6 +47,20 @@ export default function HomePage() {
               It&apos;s my own personal website and the site you are currently on.
             </p>
           </Card>
+        </div>
+      </section>
+      <section>
+        <h2 className="text-4xl font-medium text-center my-8">Blog</h2>
+        <div className="flex flex-wrap gap-12">
+          {blogEntries.docs.map((blogEntry) => (
+            <Card key={blogEntry.id} as="article">
+              <h3 className="text-3xl font-medium mb-4">{blogEntry.title}</h3>
+              <p className="mb-4">{new Date(blogEntry.date).toLocaleDateString()}</p>
+              <Button as="link" href={`/blog/${blogEntry.slug}`}>
+                Read this entry
+              </Button>
+            </Card>
+          ))}
         </div>
       </section>
       <Footer />
