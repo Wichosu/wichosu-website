@@ -1,7 +1,7 @@
 import React from 'react'
 import './global.css'
 import { Container } from './components/Container'
-// import { Navbar } from './components/Navbar'
+import { Navbar } from './components/Navbar'
 
 export const metadata = {
   description:
@@ -20,7 +20,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en">
       <body className="bg-gray-50">
         <Container>
-          {/* <Navbar /> */}
+          <Navbar />
           <main>{children}</main>
         </Container>
       </body>
