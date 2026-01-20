@@ -39,7 +39,7 @@ export default async function Page({ params }: Props) {
       </p>
       <RichText
         data={blogEntry.docs[0].content}
-        className="prose prose-neutral max-w-4xl mx-auto"
+        className="prose prose-neutral max-w-4xl mx-auto text-lg lg:text-xl"
       />
     </section>
   )

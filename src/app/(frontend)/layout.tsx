@@ -2,6 +2,7 @@ import React from 'react'
 import './global.css'
 import { Container } from './components/Container'
 import { Navbar } from './components/Navbar'
+import { Footer } from './components/Footer'
 
 export const metadata = {
   description:
@@ -22,6 +23,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <Container>
           <Navbar />
           <main>{children}</main>
+          <Footer />
         </Container>
       </body>
     </html>

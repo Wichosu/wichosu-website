@@ -3,7 +3,6 @@ import { Hero } from './components/Hero'
 import { Card } from './components/Card'
 import Image from 'next/image'
 import { Button } from './components/Button'
-import { Footer } from './components/Footer'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -56,14 +55,13 @@ export default async function HomePage() {
             <Card key={blogEntry.id} as="article">
               <h3 className="text-3xl font-medium mb-4">{blogEntry.title}</h3>
               <p className="mb-4">{new Date(blogEntry.date).toLocaleDateString()}</p>
-              <Button as="link" href={`/blog/${blogEntry.slug}`}>
+              <Button as="link" href={`/blog/${blogEntry.slug}`} target="_self" margin="none">
                 Read this entry
               </Button>
             </Card>
           ))}
         </div>
       </section>
-      <Footer />
     </>
   )
 }
