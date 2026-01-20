@@ -27,67 +27,64 @@ type NavContent = {
   description: string
 }
 
-// function createNavItem(href: string, title: string): NavItem {
-//   return {
-//     type: 'link',
-//     href,
-//     title,
-//   };
-// }
-
-function createNavItemWithContent(trigger: string, content: NavContent[]): NavItem {
+function createNavItem(href: string, title: string): NavItem {
   return {
-    type: 'trigger',
-    trigger,
-    content,
-  }
-}
-
-function createNavContent(href: string, title: string, description: string): NavContent {
-  return {
+    type: 'link',
     href,
     title,
-    description,
   }
 }
 
-export function Navbar() {
-  const NavbarItems: NavItem[] = [
-    createNavItemWithContent('Hsk', [
-      createNavContent('/libros-hsk', 'HskBooks', 'Descriptions.HskBooks'),
-      createNavContent('/hsk-audios', 'HskAudios', 'Descriptions.HskAudios'),
-      createNavContent(
-        '/hsk-audios-download',
-        'HskAudiosDownload',
-        'Descriptions.HskAudiosDownload',
-      ),
-      createNavContent('/hsk-mock-test', 'HskMockTest', 'Descriptions.HskMockTest'),
-      createNavContent('/mazos-anki', 'AnkiDecks', 'Descriptions.AnkiDecks'),
-    ]),
-    createNavItemWithContent('Tools', [
-      createNavContent('/canales', 'Channels', 'Descriptions.Channels'),
-      createNavContent('/hanzi', 'Hanzi', 'Descriptions.Hanzi'),
-      createNavContent('/plantillas', 'Templates', 'Descriptions.Templates'),
-      createNavContent(
-        '/plantillas/generador',
-        'TemplateGenerator',
-        'Descriptions.TemplateGenerator',
-      ),
-    ]),
-    createNavItemWithContent('About', [
-      createNavContent('/about', 'About', 'Descriptions.About'),
-      createNavContent('/roadmap', 'Roadmap', 'Descriptions.Roadmap'),
-      createNavContent('/support', 'Support', 'Descriptions.Support'),
-    ]),
-  ]
+// function createNavItemWithContent(trigger: string, content: NavContent[]): NavItem {
+//   return {
+//     type: 'trigger',
+//     trigger,
+//     content,
+//   }
+// }
 
+// function createNavContent(href: string, title: string, description: string): NavContent {
+//   return {
+//     href,
+//     title,
+//     description,
+//   }
+// }
+
+const NavbarItems: NavItem[] = [
+  createNavItem('/', 'Home'),
+  // createNavItemWithContent('Hsk', [
+  //   createNavContent('/libros-hsk', 'HskBooks', 'Descriptions.HskBooks'),
+  //   createNavContent('/hsk-audios', 'HskAudios', 'Descriptions.HskAudios'),
+  //   createNavContent('/hsk-audios-download', 'HskAudiosDownload', 'Descriptions.HskAudiosDownload'),
+  //   createNavContent('/hsk-mock-test', 'HskMockTest', 'Descriptions.HskMockTest'),
+  //   createNavContent('/mazos-anki', 'AnkiDecks', 'Descriptions.AnkiDecks'),
+  // ]),
+  // createNavItemWithContent('Tools', [
+  //   createNavContent('/canales', 'Channels', 'Descriptions.Channels'),
+  //   createNavContent('/hanzi', 'Hanzi', 'Descriptions.Hanzi'),
+  //   createNavContent('/plantillas', 'Templates', 'Descriptions.Templates'),
+  //   createNavContent(
+  //     '/plantillas/generador',
+  //     'TemplateGenerator',
+  //     'Descriptions.TemplateGenerator',
+  //   ),
+  // ]),
+  // createNavItemWithContent('About', [
+  //   createNavContent('/about', 'About', 'Descriptions.About'),
+  //   createNavContent('/roadmap', 'Roadmap', 'Descriptions.Roadmap'),
+  //   createNavContent('/support', 'Support', 'Descriptions.Support'),
+  // ]),
+]
+
+export function Navbar() {
   return (
     <NavbarRoot>
       <NavbarList>
         <NavbarItem>
           <NavbarLink href="/">
-            <picture className="w-5">
-              <img src="/logo.svg" alt="Logo" />
+            <picture className="w-8">
+              <img src="/logo.png" alt="Logo" />
             </picture>
           </NavbarLink>
         </NavbarItem>
