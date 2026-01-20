@@ -4,19 +4,18 @@ import config from '@payload-config'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 
 type Props = {
-  params: {
-    slug: string
-  }
+  params: Promise<{ slug: string }>
 }
 
 export default async function Page({ params }: Props) {
   const payload = await getPayload({ config })
+  const { slug } = await params
 
   const blogEntry = await payload.find({
     collection: 'blog-entry',
     where: {
       slug: {
-        equals: params.slug,
+        equals: slug,
       },
     },
     limit: 1,
