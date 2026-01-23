@@ -22,7 +22,7 @@ export default async function HomePage() {
       <Hero />
       <section>
         <h2 className="text-4xl font-medium text-center my-8">What I&apos;ve built</h2>
-        <div className="flex flex-wrap justify-center gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           <Card as="article" elevation="2">
             <h3 className="text-3xl font-medium text-center mb-4">Baulchino</h3>
             <figure className="w-fit mx-auto mb-4">
@@ -53,18 +53,28 @@ export default async function HomePage() {
       </section>
       <section>
         <h2 className="text-4xl font-medium text-center my-8">Blog</h2>
-        <div className="flex flex-wrap items-center justify-center gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           <Suspense fallback={<div>Loading...</div>}>
             {blogEntries.docs.map((blogEntry) => (
               <Card key={blogEntry.id} as="article" elevation="2">
                 <h3 className="text-3xl text-center font-medium mb-2">{blogEntry.title}</h3>
                 <p className="mb-4 text-center">{new Date(blogEntry.date).toLocaleDateString()}</p>
-                {blogEntry.image && (
-                  <picture className="block max-w-md mb-4 rounded-md overflow-hidden">
+                {blogEntry.image ? (
+                  <picture className="block max-w-md max-h-80 lg:max-h-96 mb-4 rounded-md overflow-hidden">
                     <source srcSet={blogEntry.image} />
                     <Image
-                      className="aspect-square object-cover max-w-md"
+                      className="aspect-square object-cover object-center max-w-md max-h-80 lg:max-h-96"
                       src={blogEntry.image}
+                      alt={blogEntry.title}
+                      width={500}
+                      height={500}
+                    />
+                  </picture>
+                ) : (
+                  <picture className="block max-w-md max-h-80 lg:max-h-96 mb-4 rounded-md overflow-hidden">
+                    <Image
+                      className="aspect-square object-cover object-center max-w-md max-h-80 lg:max-h-96"
+                      src="/logo.png"
                       alt={blogEntry.title}
                       width={500}
                       height={500}
