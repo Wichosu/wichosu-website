@@ -12,6 +12,16 @@ export const BlogEntry: CollectionConfig = {
       required: true,
     },
     {
+      name: 'metaDescription',
+      type: 'text',
+      required: false,
+    },
+    {
+      name: 'image',
+      type: 'text',
+      required: false,
+    },
+    {
       name: 'date',
       type: 'date',
       required: true,

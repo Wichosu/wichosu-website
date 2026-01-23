@@ -56,10 +56,28 @@ export default async function HomePage() {
         <div className="flex flex-wrap items-center justify-center gap-12">
           <Suspense fallback={<div>Loading...</div>}>
             {blogEntries.docs.map((blogEntry) => (
-              <Card key={blogEntry.id} as="article">
-                <h3 className="text-3xl font-medium mb-4">{blogEntry.title}</h3>
-                <p className="mb-4">{new Date(blogEntry.date).toLocaleDateString()}</p>
-                <Button as="link" href={`/blog/${blogEntry.slug}`} target="_self" margin="none">
+              <Card key={blogEntry.id} as="article" elevation="2">
+                <h3 className="text-3xl text-center font-medium mb-2">{blogEntry.title}</h3>
+                <p className="mb-4 text-center">{new Date(blogEntry.date).toLocaleDateString()}</p>
+                {blogEntry.image && (
+                  <picture className="block max-w-md mb-4 rounded-md overflow-hidden">
+                    <source srcSet={blogEntry.image} />
+                    <Image
+                      className="aspect-square object-cover max-w-md"
+                      src={blogEntry.image}
+                      alt={blogEntry.title}
+                      width={500}
+                      height={500}
+                    />
+                  </picture>
+                )}
+                <Button
+                  as="link"
+                  href={`/blog/${blogEntry.slug}`}
+                  target="_self"
+                  margin="none"
+                  className="block w-fit mx-auto"
+                >
                   Read this entry
                 </Button>
               </Card>
