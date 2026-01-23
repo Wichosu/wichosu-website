@@ -9,7 +9,7 @@ export function Footer() {
         Here are my contact links, feel free to reach out to me!, click on the icons to visit my
         social media profiles.
       </small>
-      <div className="w-fit mx-auto flex flex-wrap items-center mt-2 gap-4">
+      <div className="w-fit mx-auto flex flex-wrap items-center justify-center mt-2 gap-4">
         <Link href={'https://x.com/Wichosu198437'} target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width={48}>
             <title>X (Twitter)</title>

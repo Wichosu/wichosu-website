@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export function Hero() {
   return (
-    <section className="flex flex-col items-center lg:flex-row lg:justify-evenly lg:gap-12">
+    <section className="my-8 flex flex-col items-center lg:flex-row lg:justify-evenly lg:gap-12">
       <div className="max-w-2xl flex flex-col gap-4">
         <h1 className="text-4xl font-medium">Hi, I&apos;m Wichosu</h1>
         <p className="text-xl">
@@ -64,7 +64,7 @@ export function Hero() {
           I take time to respond to messages, but I&apos;ll get back to you as soon as I can.
         </p>
       </div>
-      <picture className="rounded-lg overflow-hidden">
+      <picture className="rounded-lg overflow-hidden mt-2 lg:mt-0">
         <Image src="/wichosu.jpeg" alt="Wichosu" width={325} height={325} />
       </picture>
     </section>
