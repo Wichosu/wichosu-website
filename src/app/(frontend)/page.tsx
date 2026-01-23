@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Button } from './components/Button'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { Suspense } from 'react'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,13 +22,13 @@ export default async function HomePage() {
       <Hero />
       <section>
         <h2 className="text-4xl font-medium text-center my-8">What I&apos;ve built</h2>
-        <div className="flex flex-wrap gap-12">
+        <div className="flex flex-wrap justify-center gap-12">
           <Card as="article" elevation="2">
             <h3 className="text-3xl font-medium text-center mb-4">Baulchino</h3>
             <figure className="w-fit mx-auto mb-4">
               <Image src="/baulchino.png" alt="Baulchino" width={500} height={500} />
             </figure>
-            <p className="text-lg w-md mb-4 mx-auto">
+            <p className="text-lg max-w-md mb-4 mx-auto">
               Baulchino is a website that host resources to help Mandarin Chinese learners.
             </p>
             <Button as="link" href="https://baulchino.com" className="block w-fit mx-auto">
@@ -44,7 +45,7 @@ export default async function HomePage() {
                 height={500}
               />
             </figure>
-            <p className="text-lg w-md mb-4 mx-auto">
+            <p className="text-lg max-w-md mb-4 mx-auto">
               It&apos;s my own personal website and the site you are currently on.
             </p>
           </Card>
@@ -52,16 +53,18 @@ export default async function HomePage() {
       </section>
       <section>
         <h2 className="text-4xl font-medium text-center my-8">Blog</h2>
-        <div className="flex flex-wrap gap-12">
-          {blogEntries.docs.map((blogEntry) => (
-            <Card key={blogEntry.id} as="article">
-              <h3 className="text-3xl font-medium mb-4">{blogEntry.title}</h3>
-              <p className="mb-4">{new Date(blogEntry.date).toLocaleDateString()}</p>
-              <Button as="link" href={`/blog/${blogEntry.slug}`} target="_self" margin="none">
-                Read this entry
-              </Button>
-            </Card>
-          ))}
+        <div className="flex flex-wrap items-center justify-center gap-12">
+          <Suspense fallback={<div>Loading...</div>}>
+            {blogEntries.docs.map((blogEntry) => (
+              <Card key={blogEntry.id} as="article">
+                <h3 className="text-3xl font-medium mb-4">{blogEntry.title}</h3>
+                <p className="mb-4">{new Date(blogEntry.date).toLocaleDateString()}</p>
+                <Button as="link" href={`/blog/${blogEntry.slug}`} target="_self" margin="none">
+                  Read this entry
+                </Button>
+              </Card>
+            ))}
+          </Suspense>
         </div>
       </section>
     </>

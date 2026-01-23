@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export function Hero() {
   return (
-    <section className="flex justify-evenly">
+    <section className="flex flex-col items-center lg:flex-row lg:justify-evenly lg:gap-12">
       <div className="max-w-2xl flex flex-col gap-4">
         <h1 className="text-4xl font-medium">Hi, I&apos;m Wichosu</h1>
         <p className="text-xl">
