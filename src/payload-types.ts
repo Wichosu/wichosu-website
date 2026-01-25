@@ -168,6 +168,8 @@ export interface Media {
 export interface BlogEntry {
   id: number;
   title: string;
+  metaDescription?: string | null;
+  image?: string | null;
   date: string;
   content: {
     root: {
@@ -312,6 +314,8 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface BlogEntrySelect<T extends boolean = true> {
   title?: T;
+  metaDescription?: T;
+  image?: T;
   date?: T;
   content?: T;
   slug?: T;
