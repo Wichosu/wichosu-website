@@ -192,7 +192,7 @@ export interface BlogEntry {
     [k: string]: unknown;
   };
   slug: string;
-  category?: (number | null) | Category;
+  category?: (number | Category)[] | null;
   updatedAt: string;
   createdAt: string;
 }
