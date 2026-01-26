@@ -3,6 +3,7 @@ import './global.css'
 import { Container } from './components/Container'
 import { Navbar } from './components/Navbar'
 import { Footer } from './components/Footer'
+import Script from 'next/script'
 
 export const metadata = {
   description:
@@ -19,6 +20,13 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
+      <head>
+        <Script
+          defer
+          src="https://umami.baulchino.com/script.js"
+          data-website-id="c0d2abd8-9791-4883-a47a-1cb19f50c990"
+        />
+      </head>
       <body className="bg-gray-50">
         <Container>
           <Navbar />
