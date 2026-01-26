@@ -48,7 +48,7 @@ export const BlogEntry: CollectionConfig = {
       name: 'category',
       type: 'relationship',
       relationTo: 'category',
-      hasMany: false,
+      hasMany: true,
     },
   ],
 }
