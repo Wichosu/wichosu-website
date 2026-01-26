@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     'blog-entry': BlogEntry;
+    category: Category;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'blog-entry': BlogEntrySelect<false> | BlogEntrySelect<true>;
+    category: CategorySelect<false> | CategorySelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -169,6 +171,9 @@ export interface BlogEntry {
   id: number;
   title: string;
   metaDescription?: string | null;
+  /**
+   * The image to display on the blog entry. If not provided, the logo will be used. Write the full path to the image (R2, S3 bucket, etc).
+   */
   image?: string | null;
   date: string;
   content: {
@@ -187,6 +192,17 @@ export interface BlogEntry {
     [k: string]: unknown;
   };
   slug: string;
+  category?: (number | null) | Category;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "category".
+ */
+export interface Category {
+  id: number;
+  name: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -225,6 +241,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'blog-entry';
         value: number | BlogEntry;
+      } | null)
+    | ({
+        relationTo: 'category';
+        value: number | Category;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -319,6 +339,16 @@ export interface BlogEntrySelect<T extends boolean = true> {
   date?: T;
   content?: T;
   slug?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "category_select".
+ */
+export interface CategorySelect<T extends boolean = true> {
+  name?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -8,6 +8,7 @@ import { NavbarRoot } from './NavbarRoot'
 import { NavbarIndicator } from './NavbarIndicator'
 import { NavbarViewport } from './NavbarViewport'
 import { NavbarLink } from './NavbarLink'
+import { KoFiButton } from '../KoFiButton'
 
 type NavItem =
   | {
@@ -109,6 +110,9 @@ export function Navbar() {
             )}
           </NavbarItem>
         ))}
+        <NavbarItem>
+          <KoFiButton />
+        </NavbarItem>
         <NavbarIndicator />
       </NavbarList>
       <NavbarViewport />

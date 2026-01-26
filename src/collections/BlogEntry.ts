@@ -2,6 +2,9 @@ import type { CollectionConfig } from 'payload'
 
 export const BlogEntry: CollectionConfig = {
   slug: 'blog-entry',
+  admin: {
+    useAsTitle: 'title',
+  },
   access: {
     read: () => true,
   },
@@ -20,6 +23,10 @@ export const BlogEntry: CollectionConfig = {
       name: 'image',
       type: 'text',
       required: false,
+      admin: {
+        description:
+          'The image to display on the blog entry. If not provided, the logo will be used. Write the full path to the image (R2, S3 bucket, etc).',
+      },
     },
     {
       name: 'date',
@@ -36,6 +43,12 @@ export const BlogEntry: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
+    },
+    {
+      name: 'category',
+      type: 'relationship',
+      relationTo: 'category',
+      hasMany: false,
     },
   ],
 }
