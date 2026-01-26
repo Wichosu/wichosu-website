@@ -25,7 +25,7 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           <Card as="article" elevation="2">
             <h3 className="text-3xl font-medium text-center mb-4">Baulchino</h3>
-            <figure className="w-fit mx-auto mb-4">
+            <figure className="w-fit mx-auto mb-4 rounded-md overflow-hidden">
               <Image src="/baulchino.png" alt="Baulchino" width={500} height={500} />
             </figure>
             <p className="text-lg max-w-md mb-4 mx-auto">
@@ -37,7 +37,7 @@ export default async function HomePage() {
           </Card>
           <Card as="article" elevation="2">
             <h3 className="text-3xl font-medium text-center mb-4">Wichosu Personal Website</h3>
-            <figure className="w-fit mx-auto mb-4">
+            <figure className="w-fit mx-auto mb-4 rounded-md overflow-hidden">
               <Image
                 src="/logo.png"
                 alt="A logo of Wichosu (it's the letter W with a white color and a black background)"
@@ -58,7 +58,13 @@ export default async function HomePage() {
             {blogEntries.docs.map((blogEntry) => (
               <Card key={blogEntry.id} as="article" elevation="2">
                 <h3 className="text-3xl text-center font-medium mb-2">{blogEntry.title}</h3>
-                <p className="mb-4 text-center">{new Date(blogEntry.date).toLocaleDateString()}</p>
+                <p className="mb-4 text-center">
+                  {new Date(blogEntry.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </p>
                 {blogEntry.image ? (
                   <picture className="block max-w-md max-h-80 lg:max-h-96 mb-4 rounded-md overflow-hidden">
                     <source srcSet={blogEntry.image} />
