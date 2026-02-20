@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     'blog-entry': BlogEntry;
     category: Category;
+    'book-review': BookReview;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +83,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     'blog-entry': BlogEntrySelect<false> | BlogEntrySelect<true>;
     category: CategorySelect<false> | CategorySelect<true>;
+    'book-review': BookReviewSelect<false> | BookReviewSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -208,6 +210,40 @@ export interface Category {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "book-review".
+ */
+export interface BookReview {
+  id: number;
+  title: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  slug: string;
+  /**
+   * The image to display on the book review. If not provided, the logo will be used. Write the full path to the image (R2, S3 bucket, etc).
+   */
+  image?: string | null;
+  author: string;
+  date: string;
+  rating: number;
+  amazonLink: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -245,6 +281,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'category';
         value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'book-review';
+        value: number | BookReview;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -349,6 +389,22 @@ export interface BlogEntrySelect<T extends boolean = true> {
  */
 export interface CategorySelect<T extends boolean = true> {
   name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "book-review_select".
+ */
+export interface BookReviewSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  slug?: T;
+  image?: T;
+  author?: T;
+  date?: T;
+  rating?: T;
+  amazonLink?: T;
   updatedAt?: T;
   createdAt?: T;
 }
