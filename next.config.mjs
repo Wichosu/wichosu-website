@@ -13,7 +13,10 @@ const nextConfig = {
     return webpackConfig
   },
   images: {
-    remotePatterns: [new URL('https://pub-5b38999527d945d5bf4a55ccaa62b7a3.r2.dev/**')],
+    remotePatterns: [
+      new URL('https://pub-5b38999527d945d5bf4a55ccaa62b7a3.r2.dev/**'),
+      new URL('https://m.media-amazon.com/**'),
+    ],
   },
 }
 
