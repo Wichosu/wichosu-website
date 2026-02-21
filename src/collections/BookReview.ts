@@ -45,6 +45,8 @@ export const BookReview: CollectionConfig = {
       name: 'rating',
       type: 'number',
       required: true,
+      min: 1,
+      max: 5,
     },
     {
       name: 'amazonLink',
