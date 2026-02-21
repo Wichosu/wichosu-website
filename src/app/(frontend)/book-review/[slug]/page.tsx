@@ -83,7 +83,7 @@ export default async function Page({ params }: Props) {
       </p>
 
       {review.image && (
-        <picture className="block mx-auto max-w-96 max-h-80 lg:max-h-96 mb-6 rounded-md overflow-hidden flex justify-center">
+        <picture className="block mx-auto max-w-96 max-h-80 lg:max-h-96 mb-6 rounded-md overflow-hidden">
           <source srcSet={review.image} />
           <Image
             className="aspect-square object-contain max-w-96 max-h-80 lg:max-h-96"
