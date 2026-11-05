@@ -1,2 +1,1 @@
-export { Card } from './Card';
-export { CardSkeleton } from './CardSkeleton';
+export { Card } from './Card'

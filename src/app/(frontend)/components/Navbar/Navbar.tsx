@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Image from 'next/image'
 import { NavbarListItem } from './NavbarListItem'
 import { NavbarContent } from './NavbarContent'
 import { NavbarTrigger } from './NavbarTrigger'
@@ -84,9 +85,7 @@ export function Navbar() {
       <NavbarList>
         <NavbarItem>
           <NavbarLink href="/">
-            <picture className="w-8">
-              <img src="/logo.png" alt="Logo" />
-            </picture>
+            <Image src="/logo.png" alt="Wichosu home" width={32} height={32} className="h-8 w-8" />
           </NavbarLink>
         </NavbarItem>
         {NavbarItems.map((item, index) => (

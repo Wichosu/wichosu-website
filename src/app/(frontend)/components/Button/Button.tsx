@@ -1,15 +1,13 @@
-import React from 'react';
-import Link from 'next/link';
-import {
-  ButtonAllowedScale,
-  ButtonAllowedTags,
-  ButtonAllowedTypes,
-  ButtonProps,
-} from './Button.types';
-import { twMerge } from 'tailwind-merge';
+'use client'
 
-const allowedTags: ButtonAllowedTags[] = ['link', 'button'];
-const allowedTypes: ButtonAllowedTypes[] = [
+import React from 'react'
+import Link from 'next/link'
+import { twMerge } from 'tailwind-merge'
+
+import { ButtonAllowedScale, ButtonAllowedTags, ButtonProps, ButtonVariant } from './Button.types'
+
+const allowedTags: ButtonAllowedTags[] = ['link', 'button']
+const allowedVariants: ButtonVariant[] = [
   'primary',
   'warning',
   'delete',
@@ -17,9 +15,9 @@ const allowedTypes: ButtonAllowedTypes[] = [
   'yellow',
   'lightred',
   'lime',
-];
+]
 
-const typeClass: Record<ButtonAllowedTypes, string> = {
+const variantClass: Record<ButtonVariant, string> = {
   primary:
     'bg-blue-700 text-white cursor-pointer transition-colors hover:bg-blue-800 focus:bg-blue-800 focus:outline-4 focus:outline-gray-400 active:bg-blue-900',
   warning:
@@ -33,92 +31,108 @@ const typeClass: Record<ButtonAllowedTypes, string> = {
   lightred:
     'bg-red-500 text-white cursor-pointer transition-colors hover:bg-red-600 focus:bg-red-600 focus:outline-4 focus:outline-red-800 active:bg-red-700',
   lime: 'bg-lime-500 text-white cursor-pointer transition-colors hover:bg-lime-600 focus:bg-lime-600 focus:outline-4 focus:outline-lime-800 active:bg-lime-700',
-};
+}
 
 const paddingClass: Record<ButtonAllowedScale, string> = {
   none: 'px-0 py-0',
   '1': 'px-2 py-1',
   '2': 'px-4 py-2',
   '3': 'px-6 py-3',
-};
+}
 
 const marginClass: Record<ButtonAllowedScale, string> = {
   none: 'm-0',
   '1': 'm-2',
   '2': 'm-4',
   '3': 'm-6',
-};
+}
 
 const roundedClass: Record<ButtonAllowedScale, string> = {
   none: 'rounded-none',
   '1': 'rounded-md',
   '2': 'rounded-lg',
   '3': 'rounded-xl',
-};
+}
 
 export function Button({
   as: Tag = 'button',
   href = '',
-  target = '_blank',
-  type = 'primary',
+  target = '_self',
+  variant = 'primary',
+  type = 'button',
   padding = '2',
   margin = '1',
   rounded = '1',
+  disabled = false,
+  rel,
   children,
   ref,
+  className,
+  onClick,
   ...props
 }: ButtonProps) {
   if (!allowedTags.includes(Tag)) {
     throw new Error(
-      `Tag ${Tag} is not allowed. The tags that are allowed are: ${allowedTags.join(
-        ', '
-      )}`
-    );
+      `Tag ${Tag} is not allowed. The tags that are allowed are: ${allowedTags.join(', ')}`,
+    )
   }
 
-  if (!allowedTypes.includes(type)) {
+  if (!allowedVariants.includes(variant)) {
     throw new Error(
-      `Type ${type} is not allowed. The types that are allowed are: ${allowedTypes.join(
-        ', '
-      )}`
-    );
+      `Variant ${variant} is not allowed. The variants that are allowed are: ${allowedVariants.join(', ')}`,
+    )
   }
 
   if (Tag === 'link' && !href) {
-    throw new Error('href is required when as is link');
+    throw new Error('href is required when as is link')
   }
 
   if (Tag === 'button' && href) {
-    throw new Error('href is not allowed when as is button');
+    throw new Error('href is not allowed when as is button')
   }
 
-  if (typeof href !== typeof 'string') {
-    throw new Error('href must be a string');
+  const isDisabled = disabled || variant === 'disabled'
+
+  const mergedClassName = twMerge(
+    `${variantClass[variant]} ${paddingClass[padding]} ${marginClass[margin]} ${roundedClass[rounded]} whitespace-nowrap`,
+    className,
+  )
+
+  if (Tag === 'link') {
+    return (
+      <Link
+        {...props}
+        href={href}
+        target={target}
+        rel={rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined)}
+        aria-disabled={isDisabled || undefined}
+        tabIndex={isDisabled ? -1 : undefined}
+        onClick={(event) => {
+          if (isDisabled) {
+            event.preventDefault()
+            return
+          }
+          onClick?.(event)
+        }}
+        className={mergedClassName}
+        ref={ref as React.Ref<HTMLAnchorElement> | undefined}
+      >
+        {children}
+      </Link>
+    )
   }
 
-  const className = twMerge(
-    `${typeClass[type]} ${paddingClass[padding]} ${marginClass[margin]} ${roundedClass[rounded]} whitespace-nowrap`,
-    props.className
-  );
-
-  return Tag === 'link' ? (
-    <Link
-      {...props}
-      href={href}
-      target={target}
-      className={className}
-      ref={ref}
-    >
-      {children}
-    </Link>
-  ) : (
+  return (
     <button
       {...props}
-      className={className}
-      aria-disabled={type === 'disabled'}
-      ref={ref}
+      type={type}
+      disabled={isDisabled}
+      aria-disabled={isDisabled || undefined}
+      onClick={onClick}
+      className={mergedClassName}
+      ref={ref as React.Ref<HTMLButtonElement> | undefined}
     >
       {children}
     </button>
-  );
+  )
 }

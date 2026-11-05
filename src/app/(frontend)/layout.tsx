@@ -4,6 +4,7 @@ import { Container } from './components/Container'
 import { Navbar } from './components/Navbar'
 import { Footer } from './components/Footer'
 import Script from 'next/script'
+import { SITE_URL } from '@/lib/site'
 
 export const metadata = {
   description:
@@ -12,7 +13,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
   },
-  metadataBase: new URL('https://www.wichosu.com/'),
+  metadataBase: new URL(SITE_URL),
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
@@ -22,7 +23,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <Script
-          defer
+          strategy="afterInteractive"
           src="https://umami.baulchino.com/script.js"
           data-website-id="c0d2abd8-9791-4883-a47a-1cb19f50c990"
         />
