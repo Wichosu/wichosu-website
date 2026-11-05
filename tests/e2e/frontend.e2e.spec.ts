@@ -1,20 +1,21 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 
 test.describe('Frontend', () => {
-  let page: Page
+  test('renders the homepage', async ({ page }) => {
+    await page.goto('/')
 
-  test.beforeAll(async ({ browser }, testInfo) => {
-    const context = await browser.newContext()
-    page = await context.newPage()
-  })
-
-  test('can go on homepage', async ({ page }) => {
-    await page.goto('http://localhost:3000')
-
-    await expect(page).toHaveTitle(/Payload Blank Template/)
+    await expect(page).toHaveTitle(/Wichosu/)
 
     const heading = page.locator('h1').first()
+    await expect(heading).toContainText("Hi, I'm Wichosu")
+  })
 
-    await expect(heading).toHaveText('Welcome to your new project.')
+  test('returns a 404 for an unknown blog entry', async ({ page }) => {
+    const response = await page.goto('/blog/does-not-exist')
+
+    expect(response?.status()).toBe(404)
+
+    const heading = page.locator('h1').first()
+    await expect(heading).toHaveText('Page not found')
   })
 })

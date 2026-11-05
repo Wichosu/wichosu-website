@@ -17,4 +17,11 @@ describe('API', () => {
     })
     expect(users).toBeDefined()
   })
+
+  it('allows anonymous reads of public collections', async () => {
+    for (const collection of ['blog-entry', 'book-review', 'category'] as const) {
+      const result = await payload.find({ collection, overrideAccess: false })
+      expect(Array.isArray(result.docs)).toBe(true)
+    }
+  })
 })
