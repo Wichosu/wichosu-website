@@ -1,7 +1,7 @@
 {
   "name": "wichosu",
   "version": "1.0.0",
-  "description": "A blank template to get started with Payload 3.0",
+  "description": "Personal website and blog for Wichosu, built with Next.js and Payload CMS.",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -16,6 +16,9 @@
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --no-experimental-strip-types\" pnpm exec playwright test",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "migrate": "payload migrate",
     "srv": "ssh srv.us -R 1:localhost:3000"
   },
@@ -49,8 +52,9 @@
     "@types/react": "19.2.1",
     "@types/react-dom": "19.2.1",
     "@vitejs/plugin-react": "4.5.2",
+    "@eslint/eslintrc": "^3.3.3",
     "eslint": "^9.16.0",
-    "eslint-config-next": "15.4.7",
+    "eslint-config-next": "15.4.10",
     "jsdom": "26.1.0",
     "playwright": "1.56.1",
     "playwright-core": "1.56.1",
@@ -60,14 +64,7 @@
     "vitest": "3.2.3"
   },
   "engines": {
-    "node": "^18.20.2 || >=20.9.0",
-    "pnpm": "^9 || ^10"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "sharp",
-      "esbuild",
-      "unrs-resolver"
-    ]
+    "node": ">=20.9.0",
+    "pnpm": ">=9"
   }
 }
