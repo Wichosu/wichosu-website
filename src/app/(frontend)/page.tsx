@@ -1,27 +1,43 @@
 import React from 'react'
-import { Hero } from './components/Hero'
-import { Card } from './components/Card'
 import Image from 'next/image'
-import { Button } from './components/Button'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { Suspense } from 'react'
+
+import { Hero } from './components/Hero'
+import { Card } from './components/Card'
+import { Button } from './components/Button'
 import { ContentGrid } from './components/ContentGrid'
 
 export const dynamic = 'force-dynamic'
 
+const previewFields = {
+  title: true,
+  date: true,
+  image: true,
+  slug: true,
+} as const
+
 export default async function HomePage() {
   const payload = await getPayload({ config })
 
-  const blogEntries = await payload.find({
-    collection: 'blog-entry',
-    limit: 10,
-  })
-
-  const bookReviews = await payload.find({
-    collection: 'book-review',
-    limit: 10,
-  })
+  const [blogEntries, bookReviews] = await Promise.all([
+    payload.find({
+      collection: 'blog-entry',
+      limit: 10,
+      sort: '-date',
+      depth: 0,
+      overrideAccess: false,
+      select: previewFields,
+    }),
+    payload.find({
+      collection: 'book-review',
+      limit: 10,
+      sort: '-date',
+      depth: 0,
+      overrideAccess: false,
+      select: previewFields,
+    }),
+  ])
 
   return (
     <>
@@ -37,7 +53,12 @@ export default async function HomePage() {
             <p className="text-lg max-w-md mb-4 mx-auto">
               Baulchino is a website that host resources to help Mandarin Chinese learners.
             </p>
-            <Button as="link" href="https://baulchino.com" className="block w-fit mx-auto">
+            <Button
+              as="link"
+              href="https://baulchino.com"
+              target="_blank"
+              className="block w-fit mx-auto"
+            >
               Visit Baulchino
             </Button>
           </Card>
@@ -63,8 +84,8 @@ export default async function HomePage() {
           id: doc.id,
           title: doc.title,
           date: doc.date,
-          image: doc.image as string | null | undefined,
-          slug: doc.slug as string,
+          image: doc.image,
+          slug: doc.slug,
         }))}
         basePath="/blog"
         linkLabel="Read this entry"
@@ -75,8 +96,8 @@ export default async function HomePage() {
           id: doc.id,
           title: doc.title,
           date: doc.date,
-          image: doc.image as string | null | undefined,
-          slug: doc.slug as string,
+          image: doc.image,
+          slug: doc.slug,
         }))}
         basePath="/book-review"
         linkLabel="Read this review"

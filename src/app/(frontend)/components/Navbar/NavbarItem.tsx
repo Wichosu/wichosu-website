@@ -1,10 +1,10 @@
-import React from 'react';
-import { NavigationMenu } from 'radix-ui';
+import React from 'react'
+import { NavigationMenu } from 'radix-ui'
 
 type Props = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 export function NavbarItem({ children }: Props) {
-  return <NavigationMenu.Item>{children}</NavigationMenu.Item>;
+  return <NavigationMenu.Item>{children}</NavigationMenu.Item>
 }

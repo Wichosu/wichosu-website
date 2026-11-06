@@ -1,1 +1,1 @@
-export { KoFiButton } from './KoFiButton';
+export { KoFiButton } from './KoFiButton'

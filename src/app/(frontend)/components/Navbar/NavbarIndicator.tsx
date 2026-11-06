@@ -1,16 +1,16 @@
-import React from 'react';
-import { NavigationMenu } from 'radix-ui';
+import React from 'react'
+import { NavigationMenu } from 'radix-ui'
 
 export function NavbarIndicator() {
   return (
     <NavigationMenu.Indicator
-      className='
+      className="
         top-full z-10 flex h-2.5 items-end justify-center overflow-hidden
         transition-[width,transform_250ms_ease] 
-        data-[state=hidden]:animate-fade-out data-[state=visible]:animate-fade-in
-      '
+        data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:animate-in data-[state=visible]:fade-in
+      "
     >
-      <div className='relative top-[70%] size-3.5 rotate-45 rounded-tl-sm bg-yellow-100' />
+      <div className="relative top-[70%] size-3.5 rotate-45 rounded-tl-sm bg-yellow-100" />
     </NavigationMenu.Indicator>
-  );
+  )
 }

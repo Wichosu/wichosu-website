@@ -1,6 +1,7 @@
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
+
+import { ContentImage } from '../ContentImage'
 
 export function Hero() {
   return (
@@ -23,6 +24,7 @@ export function Hero() {
             className="text-blue-500 hover:text-blue-600"
             href="https://github.com/wichosu"
             target="_blank"
+            rel="noopener noreferrer"
           >
             GitHub
           </Link>
@@ -31,6 +33,7 @@ export function Hero() {
             className="text-blue-500 hover:text-blue-600"
             href="https://x.com/Wichosu198437"
             target="_blank"
+            rel="noopener noreferrer"
           >
             Twitter
           </Link>
@@ -39,6 +42,7 @@ export function Hero() {
             className="text-blue-500 hover:text-blue-600"
             href="https://linkedin.com/in/luis-wicho-miranda"
             target="_blank"
+            rel="noopener noreferrer"
           >
             LinkedIn
           </Link>
@@ -47,15 +51,12 @@ export function Hero() {
             className="text-blue-500 hover:text-blue-600"
             href="https://t.me/wichosu"
             target="_blank"
+            rel="noopener noreferrer"
           >
             Telegram
           </Link>
           ,{' '}
-          <Link
-            className="text-blue-500 hover:text-blue-600"
-            href="mailto:wichosubuilds@gmail.com"
-            target="_blank"
-          >
+          <Link className="text-blue-500 hover:text-blue-600" href="mailto:wichosubuilds@gmail.com">
             Email
           </Link>
           .
@@ -64,9 +65,13 @@ export function Hero() {
           I take time to respond to messages, but I&apos;ll get back to you as soon as I can.
         </p>
       </div>
-      <picture className="rounded-lg overflow-hidden mt-2 lg:mt-0">
-        <Image src="/wichosu.jpeg" alt="Wichosu" width={325} height={325} />
-      </picture>
+      <ContentImage
+        src="/wichosu.jpeg"
+        alt="Wichosu"
+        width={325}
+        height={325}
+        wrapperClassName="rounded-lg overflow-hidden mt-2 lg:mt-0"
+      />
     </section>
   )
 }

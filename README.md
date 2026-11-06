@@ -1,67 +1,114 @@
-# Payload Blank Template
+# Wichosu
 
-This template comes configured with the bare minimum to get started on anything you need.
+Personal website and blog for Wichosu: a Next.js 15 frontend backed by Payload CMS 3 and PostgreSQL. The site publishes blog entries and book reviews, both managed from the Payload admin panel at `/admin`.
 
-## Quick start
+## Stack
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+- [Next.js 15](https://nextjs.org) (App Router, React 19)
+- [Payload CMS 3](https://payloadcms.com) (Lexical rich text, Postgres adapter)
+- [Tailwind CSS 4](https://tailwindcss.com)
+- PostgreSQL 16
+- Playwright (end-to-end) and Vitest (integration)
 
-## Quick Start - local setup
+## Prerequisites
 
-To spin up this template locally, follow these steps:
+- Node.js >= 20.9.0
+- pnpm >= 9
+- PostgreSQL 16 (or Docker)
 
-### Clone
+## Local setup
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+1. Install dependencies:
 
-### Development
+   ```bash
+   pnpm install
+   ```
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URL` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+2. Create your environment file and fill in the values:
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+   ```bash
+   cp .env.example .env
+   ```
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+   | Variable               | Purpose                                                                   |
+   | ---------------------- | ------------------------------------------------------------------------- |
+   | `DATABASE_URL`         | PostgreSQL connection string. Required.                                   |
+   | `PAYLOAD_SECRET`       | Secret used to sign auth tokens. Required.                                |
+   | `NEXT_PUBLIC_SITE_URL` | Canonical site URL, no trailing slash. Used for metadata and the sitemap. |
 
-#### Docker (Optional)
+   The app fails to start when `DATABASE_URL` or `PAYLOAD_SECRET` is missing.
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+3. Apply database migrations:
 
-To do so, follow these steps:
+   ```bash
+   pnpm migrate
+   ```
 
-- Modify the `MONGODB_URL` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URL` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+4. Start the dev server:
 
-## How it works
+   ```bash
+   pnpm dev
+   ```
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+   Open <http://localhost:3000>. Create the first admin user at <http://localhost:3000/admin>.
 
-### Collections
+## Scripts
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+| Command                   | Description                               |
+| ------------------------- | ----------------------------------------- |
+| `pnpm dev`                | Start the development server              |
+| `pnpm build`              | Production build                          |
+| `pnpm start`              | Serve the production build                |
+| `pnpm lint`               | Run ESLint                                |
+| `pnpm typecheck`          | Run TypeScript without emitting           |
+| `pnpm format`             | Format the repo with Prettier             |
+| `pnpm format:check`       | Check formatting without writing          |
+| `pnpm generate:types`     | Regenerate `src/payload-types.ts`         |
+| `pnpm generate:importmap` | Regenerate the Payload admin import map   |
+| `pnpm migrate`            | Apply Payload database migrations         |
+| `pnpm test:int`           | Run Vitest integration tests (needs a DB) |
+| `pnpm test:e2e`           | Run Playwright tests (needs a dev server) |
+| `pnpm test`               | Run both test suites                      |
 
-- #### Users (Authentication)
+## Docker
 
-  Users are auth-enabled collections that have access to the admin panel.
+`docker-compose.yml` starts the app in watch mode together with PostgreSQL:
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+```bash
+docker compose up
+```
 
-- #### Media
+The container overrides `DATABASE_URL` so it always points at the compose database.
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+To build the production image, pass the variables the Payload config requires at build time:
 
-### Docker
+```bash
+docker build \
+  --build-arg PAYLOAD_SECRET=your-secret \
+  --build-arg DATABASE_URL=postgres://user:pass@host:5432/db \
+  -t wichosu .
+```
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
+Then run it with `NEXT_PUBLIC_SITE_URL` and the runtime database URL set.
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+## Project layout
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+```
+src/
+├── app/
+│   ├── (frontend)/          # Public site: pages, layout, sitemap, components
+│   └── (payload)/           # Payload admin and API routes
+├── collections/             # Payload collections (BlogEntry, BookReview, Category, ...)
+├── lib/                     # Shared server helpers (site URL, validators)
+├── migrations/              # Payload/Postgres migrations
+└── payload.config.ts        # Payload configuration
+```
 
-## Questions
+## Content model
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+- **Blog entries** (`blog-entry`): title, slug, date, optional image and meta description, rich text content, categories.
+- **Book reviews** (`book-review`): title, slug, author, date, integer rating (1–5), Amazon link, optional image, rich text content.
+- **Categories** (`category`): name.
+- **Media** and **Users** support uploads and admin authentication.
+
+Blog entries, book reviews, and categories are publicly readable; all writes require an authenticated admin user.

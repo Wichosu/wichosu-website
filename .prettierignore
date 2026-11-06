@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+build
+coverage
+pnpm-lock.yaml
+playwright-report
+test-results
+src/payload-types.ts
+src/migrations
+src/app/(payload)
+AGENTS.md
