@@ -7,37 +7,19 @@ import { twMerge } from 'tailwind-merge'
 import { ButtonAllowedScale, ButtonAllowedTags, ButtonProps, ButtonVariant } from './Button.types'
 
 const allowedTags: ButtonAllowedTags[] = ['link', 'button']
-const allowedVariants: ButtonVariant[] = [
-  'primary',
-  'warning',
-  'delete',
-  'disabled',
-  'yellow',
-  'lightred',
-  'lime',
-]
+const allowedVariants: ButtonVariant[] = ['primary', 'disabled']
 
 const variantClass: Record<ButtonVariant, string> = {
   primary:
-    'bg-blue-700 text-white cursor-pointer transition-colors hover:bg-blue-800 focus:bg-blue-800 focus:outline-4 focus:outline-gray-400 active:bg-blue-900',
-  warning:
-    'bg-amber-300 text-black cursor-pointer transition-colors hover:bg-amber-400 focus:bg-amber-400 focus:outline-4 focus:outline-gray-400 active:bg-amber-500',
-  delete:
-    'bg-red-700 text-white cursor-pointer transition-colors hover:bg-red-800 focus:bg-red-800 focus:outline-4 focus:outline-gray-400 active:bg-red-900',
-  disabled:
-    'bg-gray-300 text-gray-800 cursor-not-allowed transition-colors focus:outline-4 focus:outline-gray-400',
-  yellow:
-    'bg-yellow-700 text-white cursor-pointer transition-colors hover:bg-yellow-900 focus:bg-yellow-900 focus:outline-4 focus:outline-yellow-700 active:bg-yellow-950',
-  lightred:
-    'bg-red-500 text-white cursor-pointer transition-colors hover:bg-red-600 focus:bg-red-600 focus:outline-4 focus:outline-red-800 active:bg-red-700',
-  lime: 'bg-lime-500 text-white cursor-pointer transition-colors hover:bg-lime-600 focus:bg-lime-600 focus:outline-4 focus:outline-lime-800 active:bg-lime-700',
+    'bg-accent text-[var(--color-base)] cursor-pointer transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+  disabled: 'bg-line text-ink-3 cursor-not-allowed',
 }
 
 const paddingClass: Record<ButtonAllowedScale, string> = {
   none: 'px-0 py-0',
   '1': 'px-2 py-1',
-  '2': 'px-4 py-2',
-  '3': 'px-6 py-3',
+  '2': 'px-m py-s',
+  '3': 'px-xl py-m',
 }
 
 const marginClass: Record<ButtonAllowedScale, string> = {
@@ -49,9 +31,9 @@ const marginClass: Record<ButtonAllowedScale, string> = {
 
 const roundedClass: Record<ButtonAllowedScale, string> = {
   none: 'rounded-none',
-  '1': 'rounded-md',
-  '2': 'rounded-lg',
-  '3': 'rounded-xl',
+  '1': 'rounded-none',
+  '2': 'rounded-none',
+  '3': 'rounded-none',
 }
 
 export function Button({
@@ -61,8 +43,8 @@ export function Button({
   variant = 'primary',
   type = 'button',
   padding = '2',
-  margin = '1',
-  rounded = '1',
+  margin = 'none',
+  rounded = 'none',
   disabled = false,
   rel,
   children,
@@ -94,7 +76,7 @@ export function Button({
   const isDisabled = disabled || variant === 'disabled'
 
   const mergedClassName = twMerge(
-    `${variantClass[variant]} ${paddingClass[padding]} ${marginClass[margin]} ${roundedClass[rounded]} whitespace-nowrap`,
+    `${variantClass[variant]} ${paddingClass[padding]} ${marginClass[margin]} ${roundedClass[rounded]} whitespace-nowrap text-xs tracking-[0.14em] uppercase`,
     className,
   )
 

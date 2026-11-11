@@ -10,3 +10,12 @@ export function formatDate(date: string | Date): string {
     timeZone: 'UTC',
   })
 }
+
+/** Compact date for year-grouped lists, where the year is already shown. */
+export function formatShortDate(date: string | Date): string {
+  return new Date(date).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  })
+}

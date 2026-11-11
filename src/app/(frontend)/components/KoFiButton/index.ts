@@ -1,1 +1,0 @@
-export { KoFiButton } from './KoFiButton'
