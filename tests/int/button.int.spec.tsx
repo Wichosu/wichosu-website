@@ -9,14 +9,11 @@ describe('Button', () => {
 
     const button = screen.getByRole('button', { name: 'Click me' })
     expect(button.getAttribute('type')).toBe('button')
-    expect(button.className).toContain('bg-blue-700')
+    expect(button.className).toContain('bg-accent')
   })
 
-  it('applies the requested variant', () => {
-    render(<Button variant="delete">Delete</Button>)
-
-    const button = screen.getByRole('button', { name: 'Delete' })
-    expect(button.className).toContain('bg-red-700')
+  it('rejects a variant that is not part of the design system', () => {
+    expect(() => render(<Button variant={'delete' as never}>Delete</Button>)).toThrow(/not allowed/)
   })
 
   it('disables the button for the disabled variant', () => {

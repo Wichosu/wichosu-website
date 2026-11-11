@@ -1,120 +1,81 @@
-import * as React from 'react'
-import Image from 'next/image'
-import { NavbarListItem } from './NavbarListItem'
-import { NavbarContent } from './NavbarContent'
-import { NavbarTrigger } from './NavbarTrigger'
-import { NavbarItem } from './NavbarItem'
-import { NavbarList } from './NavbarList'
-import { NavbarRoot } from './NavbarRoot'
-import { NavbarIndicator } from './NavbarIndicator'
-import { NavbarViewport } from './NavbarViewport'
-import { NavbarLink } from './NavbarLink'
-import { KoFiButton } from '../KoFiButton'
+'use client'
 
-type NavItem =
-  | {
-      type: 'trigger'
-      trigger: string
-      content: NavContent[]
-    }
-  | {
-      type: 'link'
-      href: string
-      title: string
-    }
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-type NavContent = {
+import { Wrap } from '../Wrap'
+
+type NavLink = {
+  label: string
   href: string
-  title: string
-  description: string
+  /** Matches nested routes; anchors never become active. */
+  prefix?: string
 }
 
-function createNavItem(href: string, title: string): NavItem {
-  return {
-    type: 'link',
-    href,
-    title,
-  }
-}
-
-// function createNavItemWithContent(trigger: string, content: NavContent[]): NavItem {
-//   return {
-//     type: 'trigger',
-//     trigger,
-//     content,
-//   }
-// }
-
-// function createNavContent(href: string, title: string, description: string): NavContent {
-//   return {
-//     href,
-//     title,
-//     description,
-//   }
-// }
-
-const NavbarItems: NavItem[] = [
-  createNavItem('/', 'Home'),
-  // createNavItemWithContent('Hsk', [
-  //   createNavContent('/libros-hsk', 'HskBooks', 'Descriptions.HskBooks'),
-  //   createNavContent('/hsk-audios', 'HskAudios', 'Descriptions.HskAudios'),
-  //   createNavContent('/hsk-audios-download', 'HskAudiosDownload', 'Descriptions.HskAudiosDownload'),
-  //   createNavContent('/hsk-mock-test', 'HskMockTest', 'Descriptions.HskMockTest'),
-  //   createNavContent('/mazos-anki', 'AnkiDecks', 'Descriptions.AnkiDecks'),
-  // ]),
-  // createNavItemWithContent('Tools', [
-  //   createNavContent('/canales', 'Channels', 'Descriptions.Channels'),
-  //   createNavContent('/hanzi', 'Hanzi', 'Descriptions.Hanzi'),
-  //   createNavContent('/plantillas', 'Templates', 'Descriptions.Templates'),
-  //   createNavContent(
-  //     '/plantillas/generador',
-  //     'TemplateGenerator',
-  //     'Descriptions.TemplateGenerator',
-  //   ),
-  // ]),
-  // createNavItemWithContent('About', [
-  //   createNavContent('/about', 'About', 'Descriptions.About'),
-  //   createNavContent('/roadmap', 'Roadmap', 'Descriptions.Roadmap'),
-  //   createNavContent('/support', 'Support', 'Descriptions.Support'),
-  // ]),
+const links: NavLink[] = [
+  { label: 'Writing', href: '/blog', prefix: '/blog' },
+  { label: 'Book reviews', href: '/book-review', prefix: '/book-review' },
+  { label: 'Projects', href: '/#projects' },
+  { label: 'Contact', href: '/#contact' },
 ]
 
+const externalLinkProps = {
+  target: '_blank',
+  rel: 'noopener noreferrer',
+} as const
+
 export function Navbar() {
+  const pathname = usePathname()
+
   return (
-    <NavbarRoot>
-      <NavbarList>
-        <NavbarItem>
-          <NavbarLink href="/">
-            <Image src="/logo.png" alt="Wichosu home" width={32} height={32} className="h-8 w-8" />
-          </NavbarLink>
-        </NavbarItem>
-        {NavbarItems.map((item, index) => (
-          <NavbarItem key={`navitem-${index}`}>
-            {item.type === 'link' && <NavbarLink href={item.href}>{item.title}</NavbarLink>}
-            {item.type === 'trigger' && (
-              <>
-                <NavbarTrigger>{item.trigger}</NavbarTrigger>
-                <NavbarContent>
-                  {item.content.map((listItem, index) => (
-                    <NavbarListItem
-                      key={`navlistitem-${index}`}
-                      href={listItem.href}
-                      title={listItem.title}
-                    >
-                      {listItem.description}
-                    </NavbarListItem>
-                  ))}
-                </NavbarContent>
-              </>
-            )}
-          </NavbarItem>
-        ))}
-        <NavbarItem>
-          <KoFiButton />
-        </NavbarItem>
-        <NavbarIndicator />
-      </NavbarList>
-      <NavbarViewport />
-    </NavbarRoot>
+    <header className="border-b border-line">
+      <Wrap className="flex flex-col gap-s py-m md:flex-row md:items-center md:justify-between md:gap-l">
+        <Link href="/" className="flex w-fit items-center gap-2xs" aria-label="Wichosu — home">
+          <span
+            aria-hidden="true"
+            className="flex size-[27px] items-center justify-center bg-ink font-display text-base leading-none text-[var(--color-base)]"
+          >
+            W
+          </span>
+          <span className="font-display text-md font-medium tracking-tight text-ink">Wichosu</span>
+        </Link>
+
+        <nav
+          aria-label="Primary"
+          className="-mx-m border-t border-line px-m md:mx-0 md:border-t-0 md:px-0"
+        >
+          <ul className="flex items-center justify-between gap-3xs text-[0.6rem] tracking-[0.1em] uppercase md:gap-l md:text-xs md:tracking-[0.12em]">
+            {links.map((link) => {
+              const active = link.prefix ? pathname.startsWith(link.prefix) : false
+
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    aria-current={active ? 'page' : undefined}
+                    className={`inline-block border-b pb-3xs whitespace-nowrap transition-colors duration-150 ${
+                      active
+                        ? 'border-accent text-ink'
+                        : 'border-transparent text-ink-2 hover:text-ink'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              )
+            })}
+            <li>
+              <a
+                href="https://ko-fi.com/N4N61JGIR0"
+                {...externalLinkProps}
+                className="inline-block border border-accent px-2xs py-3xs whitespace-nowrap text-accent transition-colors duration-150 hover:bg-accent hover:text-[var(--color-base)]"
+              >
+                Ko-fi
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </Wrap>
+    </header>
   )
 }
